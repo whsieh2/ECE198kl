@@ -220,8 +220,8 @@ DONE	HALT			; done
 NUM_BINS	.FILL #27	; 27 loop iterations
 CHAR_ASCII	.FILL #64	;ASCII value @
 SPACE_ASCII	.FILL #32	; Space's ASCII value
-NUMBER_CONVERT	.FILL #48	;
-LETTER_CONVERT	.FILL #55	;
+NUMBER_CONVERT	.FILL #48	; offset of numbers and their corresponding ASCII values
+LETTER_CONVERT	.FILL #55	; offset of letters and their corresponding ASCII values
 NEG_AT		.FILL xFFC0	; the additive inverse of ASCII '@'
 AT_MIN_Z	.FILL xFFE6	; the difference between ASCII '@' and 'Z'
 AT_MIN_BQ	.FILL xFFE0	; the difference between ASCII '@' and '`'
