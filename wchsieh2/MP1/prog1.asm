@@ -31,7 +31,7 @@
 ;		Adapted from ECE190 example code.
 ;
 
-
+; 
 ;
 ; The code given to you here implements the histogram calculation that 
 ; we developed in class.  In programming studio, we will add code that
@@ -128,19 +128,100 @@ GET_NEXT
 	ADD R1,R1,#1		; point to next character in string
 	BRnzp COUNTLOOP		; go to start of counting loop
 
+; INTRO: My code prints the histogram stored at x3F00. It has an up counter
+; which monitors which character the program is printing as well as which 
+; memory address we are currently on. It will take the number stored in memory 
+; and split up the 16 bits and divide it into 4 groups. Each group is then 
+; converted to hexadecimal by looping a bit shift and using BRzp to see if the 
+; most significant bit is 0 or 1. After 4 iterations, the hexadecimal number is
+; printed and move onto the next three groups. I add a certain number to a 
+; to a regisiter depending on where the most significant bit originally was before
+; the bit shift. I will then take the number and add the difference to convert it
+; to its ASCII counter part and print this digit. After printing one line, the
+; histogram will go to the next memory address and repeat this 26 more times.
 
-
+; R0 : Initially used as a histogram address holder. It is also used to print.
+; R1 : Used to store NUM_BINS
+; R3 : Used as a 4 bit counter after dividing the 16 bit count into four groups.
+; R4 : stores the value of the frequency of each character
+; R5 : Used to convert binary to hexdecimal. 8,4,2,1 are added to this
+;	   register depending on how many bit shifts have occurred.
+; R6 : Line counter, used to see if we have finished the histogram
+; R7 : used as the ASCII value for '@'.
 PRINT_HIST
-
-; you will need to insert your code to print the histogram here
-
-
+	AND R0, R0, #0		; clear R0
+	AND R1, R1, #0		; clear R1
+	AND R3, R3, #0		; clears R3
+	AND R4, R4, #0		; clear R4
+	AND R5, R5, #0		; clears R5
+	AND R6, R6, #0		; clears R6
+PRINTING	
+	AND R3, R3, #0		; clear R3
+	ADD R3, R3, #4		; initiate digit counter (groups of 4 bits)
+	LD R0, HIST_ADDR 	; R0 points to the first histogram address
+	ADD R0, R0, R6		; current location of the histogram
+	LD R1, NUM_BINS		; R1 has the value 27
+	NOT R1, R1			; complements 27, to be subtracted
+	ADD R1, R1, #1		; makes 27 negative 27
+	ADD R1, R6, R1		; See's if the print has done 27 iterations
+	BRzp DONE			; if the loops has ran 27 times, the program halts.
+	LDR R4, R0, #0		; R4 has the value in the histogram, the character count
+	AND R0, R0, #0		; clears R0
+	LD R7, CHAR_ASCII	; sets R7 as the ASCII value for '@'
+	ADD R0, R6, R7		; sets R0 as the ASCII value for the current character
+	OUT					; prints R0, which will be the corresponding character for each frequency
+	LD R0, SPACE_ASCII	; sets R0 as the ASCII value for ' '.
+	OUT					; prints a space
+BIT_PRINTER
+	AND R5, R5, #0		; clears R5
+	ADD R4, R4, #0		; Used for the following BR
+	BRzp FIRST_BIT		; if the most significant bit of R4 is 0, next step is skipped
+	ADD R5, R5, #8		; adds 8 to the R5
+FIRST_BIT
+	ADD R4, R4, R4		; bit shift to the left
+	BRzp SECOND_BIT		;if the most significant bit is 0, the next step is skipped
+	ADD  R5, R5, #4		; adds 4 to R5
+SECOND_BIT
+	ADD R4, R4, R4		; bit shift to the left
+	BRzp THIRD_BIT		;	if the most significant bit is 0, the next step is skipped
+	ADD  R5, R5, #2		; adds 2 to R5
+THIRD_BIT
+	ADD R4, R4, R4		; bit shift to the left
+	BRzp FOURTH_BIT		;	if the most significant bit is 0, the next step is skipped
+	ADD  R5, R5, #1		; adds 1 to R5
+FOURTH_BIT
+	ADD R4, R4, R4		; bit shift to the left
+	ADD R5, R5, #-9		; see if the count will result in a digit or a letter
+	BRp LETTER			; if the count is more than 9, it is a letter and will be printed differently.
+	ADD R5, R5, #9		; re-correct the count
+	LD R1, NUMBER_CONVERT		; the difference between the count number and its corresponding ASCII value
+	AND R0, R0, #0		; clears R0
+	ADD R0, R5, R1		; convert the true value to it's corresponding ASCII value
+	BRnzp PRINT			; goes to print for the 4 hexdecimal bits to be printed
+LETTER
+	ADD R5, R5, #9		; re-correct the count
+	LD R1, LETTER_CONVERT	; the difference between the number count and it's corresponding ASCII value
+	AND R0, R0, #0		; clears R0
+	ADD R0, R5, R1	; converts the true value to its corresponding ASCII value
+PRINT
+	OUT		; Prints R0
+	ADD R3, R3, #-1		; Down counts R4
+	BRp BIT_PRINTER		; If R4 is still positive, it will continue to the next four bits
+	ADD R6, R6, #1		; Adds 1 to the line counter
+	AND R0, R0, #0		; clears R0
+	ADD R0, R0, #10		; Goes to the next line
+	OUT					
+	BRnzp PRINTING		; goes back to the printing loop.
 
 DONE	HALT			; done
 
 
 ; the data needed by the program
 NUM_BINS	.FILL #27	; 27 loop iterations
+CHAR_ASCII	.FILL #64	;ASCII value @
+SPACE_ASCII	.FILL #32	; Space's ASCII value
+NUMBER_CONVERT	.FILL #48	;
+LETTER_CONVERT	.FILL #55	;
 NEG_AT		.FILL xFFC0	; the additive inverse of ASCII '@'
 AT_MIN_Z	.FILL xFFE6	; the difference between ASCII '@' and 'Z'
 AT_MIN_BQ	.FILL xFFE0	; the difference between ASCII '@' and '`'
