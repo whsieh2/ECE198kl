@@ -33,6 +33,25 @@
 
    .ORIG x3000    ; starting address is x3000
 
+;INTRO: I first made a loop to go through the database. If a NULL
+; is read first, the loop terminates and will print what is stored
+; in the array. If it is not NULL, the each character in the string
+; will be read until a NULL is found, then the three choices and the
+; addr of the beginning of the string will be stored in the array.
+; If a NULL appears right after the three choices, my program will
+; print requested values in the array in the requested format. 
+; Printing consists of storing the choices in registers and printing
+; those values.
+
+;R0: Keeps track of the current array address
+;R1: Holds the choice information
+;R2: Count for the number of times the string address is stored in the array.
+;R3: Holds each string starting address
+	;Used to see if we have printed the right number of pages.
+;R4: Reads the values stored in the database.
+;R5: Holds the choice values
+;R6: Keeps track of the current database address
+;R7: Unused.
 
 DATABASE_MEMORY_STORAGE
 	LD R0, DATA			; R0 has the value x4000 (Array memory location)
@@ -287,16 +306,27 @@ SPACE 			.FILL #32		; ASCII value for a space
 
 ; You may need to move these strings to be close to your game play loop.
 
-MP3: INTRO: 
-R0: Used to printing STRINGZ.
-R1: Has the value x4000, which is the addr for the start of the array
-R2: Used as the input for PRINT_CHAR and numerical value of the key pressed
+;MP3: INTRO: My program will first upload each choice value into registers
+;and will check if the first choice is negative, indicating the
+;program is going to end. If it is not negative, it will print 
+;the story text, followed by the prompt. Then the player must
+;enter a key. First it will check if the key selected is 1, 2 or 3.
+;If it is, then it read the value of that choice. If it is negative
+;the choice is invalid, if it is correct, the value is multiplied
+;by four and my code will then read the values at the page number. 
+;This is followed by going back to the beginning of the program.
+;If the selected key is invalid, the program will repeat the story
+;test and the prompt.
+
+;R0: Used to printing STRINGZ.
+;R1: Has the value x4000, which is the addr for the start of the array
+;R2: Used as the input for PRINT_CHAR and numerical value of the key pressed
 ;	We only care about 1,2,3, so if any other key will result in an invalid
-R3: Holds the value of choice 1
-R4: Holds the value of choice 2
-R5: Holds the value of choice 3
-R6: Temporary register. 
-R7:	Unused
+;R3: Holds the value of choice 1
+;R4: Holds the value of choice 2
+;R5: Holds the value of choice 3
+;R6: Temporary register. 
+;R7:	Unused
 	
 LETS_PLAY
 	AND R0, R0, #0		; clears R0
@@ -307,7 +337,7 @@ LETS_PLAY
 	AND R5, R5, #0		; clears R5
 	AND R6, R6, #0		; clears R6
 	LD R1, DATA			; R0 has the current array addr.
-INTRO
+INTRO_STRING
 	AND R0, R0, #0		; clear R0
 	LEA R0,P3_START_STR ; R0 has the starting addr for the intro string
 	PUTS				; prints the value at R0 and increments until NULL
@@ -325,7 +355,7 @@ STORY_TEXT
 	PUTS				; Prints the story text of the requested page
 ANSWER
 	AND R0, R0, #0		; clears R0
-	LEA R0,P3_PROMPT_STR; R0 contains the string addr of the prompt string.
+	LEA R0,P3_PROMPT_STR ; R0 contains the string addr of the prompt string.
 	PUTS				; prints the prompt string
 	GETC				; waits for the player to type and key and stores it in R0
 	AND R2, R2, #0		; clear R2
@@ -353,7 +383,7 @@ INVALID_CHECK
 	BRz CHOICE_THREE	; player pressed 3 because 3-3=0, go to choice_three
 INVALID
 	AND R0, R0, #0		; clears R0
-	LEA R0,P3_INVALID_STR; R0 has the starting addr of the INVALID string
+	LEA R0,P3_INVALID_STR ; R0 has the starting addr of the INVALID string
 	PUTS				; prints the invalid string
 REPEAT
 	AND R6, R6, #0		; clear R6
@@ -370,7 +400,6 @@ CHOICE_ONE
 	ADD R1, R1, R3		;
 	ADD R1, R1, R3		; This and the above 3 lines mutiple the choice value by 4
 	BRnzp END_CHECKER	; Goes to the beginning and restarts with new page/choice info
-
 CHOICE_TWO
 	ADD R4, R4, #0		; calls the value of R4
 	BRn INVALID			; if choice 2 is negative, do the invalid function
@@ -380,7 +409,6 @@ CHOICE_TWO
 	ADD R1, R1, R4		;
 	ADD R1, R1, R4		; This and the above 3 lines mutiple the choice value by 4
 	BRnzp END_CHECKER	; Goes to the beginning and restarts with new page/choice info
-
 CHOICE_THREE
 	ADD R5, R5, #0		; calls the value of R5
 	BRn INVALID			; if choice 3 is negative, do the invalid function
@@ -404,14 +432,8 @@ ASCII_CHOICE	.FILL #-48
 
 P3_START_STR	.STRINGZ "\n\n--- Starting adventure. ---\n\n"
 P3_PROMPT_STR	.STRINGZ "Please enter your choice: "
-P3_INVALID_STR	.STRINGZ "\n\n--- Invalid choice. ---\n\n"
-P3_END_STR  	.STRINGZ "\n\n--- Ending adventure. ---\n\n"
-
-
-
-
-
-
+P3_INVALID_STR	.STRINGZ "--- Invalid choice. ---\n\n"
+P3_END_STR  	.STRINGZ "\n--- Ending adventure. ---\n\n"
 
 
    ; the directive below tells the assembler that the program is done
