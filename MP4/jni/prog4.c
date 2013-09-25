@@ -399,9 +399,124 @@ handle_memory_buttons (int32_t key, double* value)
  *               number, for example)
  * SIDE EFFECTS: none
  */
+ 
+ /* INTRO: I used switch statements for each button command. Each case has a specific 
+ * function for that specific button. Used if statements for certain invalid usages.
+ */
 static double
 execute_operator (int32_t key, double arg1, double arg2)
 {
+		int pi= 3.141592654;
+	switch (key) 
+	{ 
+		//This will add 2 given arguments.
+		case BUTTON_PLUS: 
+		{ 
+			return arg1+arg2; 
+		} 
+		//This will subtract 2 given arguments.
+		case BUTTON_MINUS: 
+		{
+			return arg1-arg2;
+		} 
+		//This will mutiply 2 given arguments.
+		case BUTTON_TIMES: 
+		{
+			return arg1*arg2; 
+		}
+		//This will divide 2 given arguments unless the 2nd one is a zero.
+		case BUTTON_DIVIDE: 
+		{ 
+			if(arg2==0) 
+				{
+					return BAD_OPERATION;
+				}
+			return arg1/arg2; 
+		} 
+		//This will make the current argument by -1
+		case BUTTON_NEGATE: 
+		{ 
+			return (-arg1); 
+		} 
+		//This will invert the arguemnt (1/arg1)
+		case BUTTON_INVERT: 
+		{ 
+			if(arg1==0) 
+			{
+				return BAD_OPERATION;
+			} 
+				return (1/arg1); 
+		} 
+		//This will square the argument by multiply the arg by itself.
+		case BUTTON_SQUARE:
+		{ 
+			return arg1*arg1; 
+		} 
+		//This will do arg1 to the power of arg2
+		case BUTTON_X_TO_Y: 
+		{ 
+			return pow(arg1,arg2);
+		} 
+		//This will take the degree value and convert it to radians and do the sin func.
+		case BUTTON_SIN: 
+		{ 
+			return sin((arg1*pi)/180); 
+		}
+		//This will take the degree value and convert it to radians and do the cos func.
+		case BUTTON_COS: 
+		{  
+			return cos((arg1*pi)/180); 
+		} 
+		// Divide sin func over cos func to implement tan function.
+		case BUTTON_TAN: 
+		{
+			return ((sin(arg1*pi/180))/(cos(arg1*pi/180))); 
+		} 
+		//This will give the natural log of arg1 if it's not 0
+		case BUTTON_LN: 
+		{ 
+			if(arg1<=0) 
+			{
+				return BAD_OPERATION;
+			} 
+			return log(arg1); 
+		}
+		//This will take the e power of arg1
+		case BUTTON_EXP: 
+		{ 
+			return exp(arg1); 
+		} 
+		//This will take the square of arg1
+		case BUTTON_SQRT: 
+		{ 
+			if(arg1<0) 
+			{
+				return BAD_OPERATION;
+			}
+			return sqrt(arg1); 
+		} 
+		//This will take the cube root of arg1
+		case BUTTON_CBRT: 
+		{
+			return pow(arg1,(1/3)); 
+		} 
+		//I used a for loop to implement the factorial. If it is a double, it will take the next lowest int.
+		case BUTTON_FACT:
+		{
+			if (arg1 >= 0)
+			{
+				int y = 1;
+				for (int x = 1; x <= arg1; x++)
+				{
+					y = y*x;
+				}
+				return y;
+			}
+			else 
+				return BAD_OPERATION;
+			
+		}
     /* By default, the calculator marks all operations as bad. */
-    return BAD_OPERATION;
+    	return BAD_OPERATION;
+    	}
 }
