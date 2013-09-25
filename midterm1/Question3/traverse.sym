@@ -1,0 +1,18 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	TRAVERSE          3002
+//	CURRENT           3011
+//	INPUT_BITS        301B
+//	OUTPUT            301C
+//	ADDR              301D
+//	TRANS_R0          301E
+//	TRANS_R1          301F
+//	TRANS_R2          3020
+//	TRANS_R3          3021
+//	TRANS_R4          3022
+//	TRANS_R5          3023
+//	TRANS_R6          3024
+//	TRANS_R7          3025
+

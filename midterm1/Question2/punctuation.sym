@@ -1,0 +1,25 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	STRING_CHECK      3007
+//	NUM               3009
+//	UPPER_CASE        3013
+//	LOWER_CASE        301D
+//	SKIP              3026
+//	END_STRING        3028
+//	STRING            3029
+//	CONVERT           302A
+//	NUM_ZER           302B
+//	NUM_NIN           302C
+//	SMA_A             302D
+//	SMA_Z             302E
+//	BIG_A             302F
+//	BIG_Z             3030
+//	RANGE             3031
+//	GO_BACK           303F
+//	RANGE_SAVER0      3044
+//	RANGE_SAVER5      3045
+//	RANGE_SAVER7      3046
+//	RANGE_SAVER1      3047
+
