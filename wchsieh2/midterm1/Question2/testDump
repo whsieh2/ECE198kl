@@ -1,0 +1,217 @@
+---------------------SIMPLE TEST-------------------------------
+
+Welcome to the LC-3 simulator.
+
+The contents of the LC-3 tools distribution, including sources, management
+tools, and data, are Copyright (c) 2003 Steven S. Lumetta.
+
+The LC-3 tools distribution is free software covered by the GNU General
+Public License, and you are welcome to modify it and/or distribute copies
+of it under certain conditions.  The file COPYING (distributed with the
+tools) specifies those conditions.  There is absolutely no warranty for
+the LC-3 tools distribution, as described in the file NO_WARRANTY (also
+distributed with the tools).
+
+Have fun.
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0000 R3=x0000 R4=x0000 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+Loaded "p2_simpletest.obj" and set PC to x4000
+WARNING: No symbols are available.
+Loaded "punctuation.obj" and set PC to x3000
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0061 R3=x007A R4=xFFFF R5=x500D R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+                   x5000 x0048 .FILL 'H'
+                   x5001 x0065 .FILL 'e'
+                   x5002 x006C .FILL 'l'
+                   x5003 x0057 .FILL 'W'
+                   x5004 x006F .FILL 'o'
+                   x5005 x006C .FILL 'l'
+                   x5006 x0049 .FILL 'I'
+                   x5007 x0074 .FILL 't'
+                   x5008 x0073 .FILL 's'
+                   x5009 x0032 .FILL '2'
+                   x500A x0030 .FILL '0'
+                   x500B x0031 .FILL '1'
+                   x500C x0033 .FILL '3'
+                   x500D x0000 NOP   
+                   x500E x0000 NOP   
+                   x500F x0000 NOP   
+                   x5010 x0000 NOP   
+                   x5011 x0000 NOP   
+                   x5012 x0000 NOP   
+                   x5013 x0000 NOP   
+---------------------NO PUNCTUATION-------------------------------
+
+Welcome to the LC-3 simulator.
+
+The contents of the LC-3 tools distribution, including sources, management
+tools, and data, are Copyright (c) 2003 Steven S. Lumetta.
+
+The LC-3 tools distribution is free software covered by the GNU General
+Public License, and you are welcome to modify it and/or distribute copies
+of it under certain conditions.  The file COPYING (distributed with the
+tools) specifies those conditions.  There is absolutely no warranty for
+the LC-3 tools distribution, as described in the file NO_WARRANTY (also
+distributed with the tools).
+
+Have fun.
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0000 R3=x0000 R4=x0000 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+Loaded "p2_noPunctuation.obj" and set PC to x4000
+WARNING: No symbols are available.
+Loaded "punctuation.obj" and set PC to x3000
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0061 R3=x007A R4=x0000 R5=x501D R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+                   x5000 x0057 .FILL 'W'
+                   x5001 x0068 .FILL 'h'
+                   x5002 x006E .FILL 'n'
+                   x5003 x0077 .FILL 'w'
+                   x5004 x0073 .FILL 's'
+                   x5005 x0049 .FILL 'I'
+                   x5006 x006C .FILL 'l'
+                   x5007 x0061 .FILL 'a'
+                   x5008 x006E .FILL 'n'
+                   x5009 x0064 .FILL 'd'
+                   x500A x0068 .FILL 'h'
+                   x500B x0073 .FILL 's'
+                   x500C x006E .FILL 'n'
+                   x500D x0065 .FILL 'e'
+                   x500E x0063 .FILL 'c'
+                   x500F x0074 .FILL 't'
+                   x5010 x0061 .FILL 'a'
+                   x5011 x0070 .FILL 'p'
+                   x5012 x006F .FILL 'o'
+                   x5013 x006C .FILL 'l'
+                   x5014 x0075 .FILL 'u'
+                   x5015 x0065 .FILL 'e'
+                   x5016 x0074 .FILL 't'
+                   x5017 x006C .FILL 'l'
+                   x5018 x0061 .FILL 'a'
+                   x5019 x006E .FILL 'n'
+                   x501A x0079 .FILL 'y'
+                   x501B x0069 .FILL 'i'
+                   x501C x0067 .FILL 'g'
+                   x501D x0000 NOP   
+                   x501E x0000 NOP   
+                   x501F x0000 NOP   
+                   x5020 x0000 NOP   
+                   x5021 x0000 NOP   
+                   x5022 x0000 NOP   
+                   x5023 x0000 NOP   
+                   x5024 x0000 NOP   
+                   x5025 x0000 NOP   
+                   x5026 x0000 NOP   
+                   x5027 x0000 NOP   
+                   x5028 x0000 NOP   
+                   x5029 x0000 NOP   
+                   x502A x0000 NOP   
+                   x502B x0000 NOP   
+                   x502C x0000 NOP   
+                   x502D x0000 NOP   
+                   x502E x0000 NOP   
+                   x502F x0000 NOP   
+                   x5030 x0000 NOP   
+                   x5031 x0000 NOP   
+                   x5032 x0000 NOP   
+                   x5033 x0000 NOP   
+                   x5034 x0000 NOP   
+                   x5035 x0000 NOP   
+                   x5036 x0000 NOP   
+                   x5037 x0000 NOP   
+                   x5038 x0000 NOP   
+                   x5039 x0000 NOP   
+                   x503A x0000 NOP   
+                   x503B x0000 NOP   
+                   x503C x0000 NOP   
+                   x503D x0000 NOP   
+                   x503E x0000 NOP   
+                   x503F x0000 NOP   
+                   x5040 x0000 NOP   
+                   x5041 x0000 NOP   
+                   x5042 x0000 NOP   
+                   x5043 x0000 NOP   
+                   x5044 x0000 NOP   
+                   x5045 x0000 NOP   
+                   x5046 x0000 NOP   
+                   x5047 x0000 NOP   
+                   x5048 x0000 NOP   
+                   x5049 x0000 NOP   
+                   x504A x0000 NOP   
+                   x504B x0000 NOP   
+                   x504C x0000 NOP   
+                   x504D x0000 NOP   
+                   x504E x0000 NOP   
+                   x504F x0000 NOP   
+                   x5050 x0000 NOP   
+---------------------ALL PUNCTUATION-------------------------------
+
+Welcome to the LC-3 simulator.
+
+The contents of the LC-3 tools distribution, including sources, management
+tools, and data, are Copyright (c) 2003 Steven S. Lumetta.
+
+The LC-3 tools distribution is free software covered by the GNU General
+Public License, and you are welcome to modify it and/or distribute copies
+of it under certain conditions.  The file COPYING (distributed with the
+tools) specifies those conditions.  There is absolutely no warranty for
+the LC-3 tools distribution, as described in the file NO_WARRANTY (also
+distributed with the tools).
+
+Have fun.
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0000 R3=x0000 R4=x0000 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+Loaded "p2_allPunctuation.obj" and set PC to x4000
+WARNING: No symbols are available.
+Loaded "punctuation.obj" and set PC to x3000
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0061 R3=x007A R4=xFFFF R5=x5000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+                   x5000 x0000 NOP   
+                   x5001 x0000 NOP   
+                   x5002 x0000 NOP   
+                   x5003 x0000 NOP   
+                   x5004 x0000 NOP   
+                   x5005 x0000 NOP   
+                   x5006 x0000 NOP   
+                   x5007 x0000 NOP   
+                   x5008 x0000 NOP   
+                   x5009 x0000 NOP   
+                   x500A x0000 NOP   
+                   x500B x0000 NOP   
+                   x500C x0000 NOP   
+                   x500D x0000 NOP   
+                   x500E x0000 NOP   
+                   x500F x0000 NOP   
+                   x5010 x0000 NOP   
+                   x5011 x0000 NOP   
+                   x5012 x0000 NOP   
+                   x5013 x0000 NOP   
