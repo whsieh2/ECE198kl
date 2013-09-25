@@ -1,0 +1,3 @@
+----- START OF DEBUG OUTPUT -----
+application quit
+----- END OF DEBUG OUTPUT -----
