@@ -38,7 +38,22 @@
 
 #include "prog5.h"
 
+/*
+INTRO: 
 
+In this program, I created set_seed using the information given to use during
+lab and the provided powerpoint. Using that algorithm, I was able to successfully 
+compare the user's guessed values to the solutions, created by the library's random
+number generater using a number the user provides (start_game). 
+In make_guess I first make sure the user inputted 4 numbers, separated by spaces, that are between 1 and 8.
+If none of the criterion were met, the user would get an invalid statement and could enter another guess.
+I first compared each digit to it's corresponding solution. so if the solution was A B C D and the user
+guessed a b c d, I would first compare A and a, B and b, and etc. This would ensure I would find any perfect
+matches immediately. Then I checked purely for mismatches. Anything that wasn't a mismatch was assumed wrong.
+To keep a status of whether A, B, C, D had been claimed as perfect, or mismatched, I used an array, correct[].
+0 meant that particular solution had not found it's match at all. 1 meant it had found a perfect match. and 2
+meant that there value existed, but was not in the correct location.
+*/
 /*
  * The functions that you must write are defined in the header file.
  * Blank function prototypes with explanatory headers are provided
@@ -59,6 +74,10 @@
  * sample for one variable of the code is shown below for you.
  */
 static int32_t soln1;
+static int32_t soln2;
+static int32_t soln3;
+static int32_t soln4;
+static int32_t guessCount; //file scope for the guess count
 
 
 /*
@@ -71,10 +90,17 @@ static int32_t soln1;
  * SIDE EFFECTS: initializes pseudo-random number generation
  */
 int32_t 
-set_seed (const char* seed_str)
-{
-    srand (12345);
-    return 1;
+set_seed (const char* seed_str)	
+{   //code given during lab.
+	int seed;
+	char post[2];
+	if (1 == sscanf (seed_str, "%d%1s", &seed, post)) 
+	{
+		srand (seed);
+		return 1;
+	}
+	prog5_printf ("set_seed: invalid seed\n");
+	return 0;
 }
 
 
@@ -82,7 +108,7 @@ set_seed (const char* seed_str)
  * start_game -- creates the solution combination using the approach
  *               described in the assignment specification (using rand)
  * INPUTS: none
- * OUTPUTS: *one -- the first color value in the code (between 1 and 8)
+ * OUTPUTS: *one -- the first color value in thYour routine must validate the string in the same way that we did for sete code (between 1 and 8)
  *          *two -- the second color value in the code (between 1 and 8)
  *          *three -- the third color value in the code (between 1 and 8)
  *          *four -- the fourth color value in the code (between 1 and 8)
@@ -92,10 +118,17 @@ set_seed (const char* seed_str)
 int32_t
 start_game (int32_t* one, int32_t* two, int32_t* three, int32_t* four)
 {
-    *one = 1;
-    *two = 1;
-    *three = 1;
-    *four = 1;
+	//each solution is randomly selected based on a number the user selects.
+	*one = (((rand())%8)+1);
+	soln1 = *one;
+    *two = (((rand())%8)+1);
+    soln2 = *two;
+    *three = (((rand())%8)+1);
+    soln3 = *three;
+    *four = (((rand())%8)+1);
+    soln4 = *four;
+    //prog5_printf("%d %d %d %d\n", soln1,soln2,soln3,soln4); For debugging purposes, 
+    //solutions are printed(currently commented out)
     return 1;
 }
 
@@ -120,10 +153,165 @@ start_game (int32_t* one, int32_t* two, int32_t* three, int32_t* four)
 int32_t
 make_guess (const char* guess_str, int32_t* one, int32_t* two, 
 	    int32_t* three, int32_t* four)
-{
-    return 0;
-}
+{ 	
 
+	//guess string is stored in each variable using the algorthim from seed.
+	char post[2];
+	
+	//makes sure there are only 4 inputted numbers.
+	if (4 == sscanf (guess_str, "%d%d%d%d%1s", &*one, &*two ,&*three,&*four,post)) 
+	{
+		int validNum = 0; //holds the number of perfect matches
+		int misplace = 0; //holes the number of missplaced numbers
+		int correct[4]; //initiated a array to store information on each soln's status
+		// 0=not corrected/unchecked. 1= perfect match. 2= missplaced number.
+		int i; //"‘for’ loop initial declarations are only allowed in C99 mode" so i initiated i here.
+		for (i=0; i<4; i++)
+			correct[i]=0; 
+		
+		//checks to make sure the numbers are all between 1-8.
+		if (((*one >8) || (*one <1))||((*two >8) || (*two <1))||((*three <1)|| (*three>8))||((*four <1) ||(*four>8)))
+		{
+			prog5_printf("make_guess: invalid guess\n");
+			return 0;
+		}
+		else
+		{
+			//First I checked purely for perfect matches.
+			if (*one ==soln1)
+			{
+				correct[0]=1;
+				validNum++;
+			}
+			if (*two ==soln2)
+			{
+				correct[1]=1;
+				validNum++;
+			}
+			if (*three==soln3)
+			{
+				correct[2]=1;
+				validNum++;		
+			}
+			if (*four==soln4)
+			{
+				correct[3]=1;
+				validNum++;
+			}
+			
+			//If no perfect matches are found, the corresponding correct[] will still be 0.
+			//I check each guess with every single solution, then I will move on to the next
+			//consecutive guess. If there are any matches, it is a missplaced number, and the correct[]
+			//value will be changed to 2, making it so other guesses cannot be compared to this number.
+			if ((*one == soln2)&&(correct[1]==0))
+			{
+				misplace++;
+				correct[1]=2;
+			}
+			if ((*one == soln3)&&(correct[2]==0))
+			{
+				misplace++;
+				correct[2]=2;
+			}
+			if ((*one == soln4)&&(correct[3]==0))
+			{
+				misplace++;
+				correct[3]=2;
+			}
+			if (*two ==soln1)
+			{
+				if (correct[0] ==0)
+				{
+					misplace++;
+					correct[0]=2;
+				}
+			}
+			if (*two ==soln3)
+			{
+				if (correct[2]==0)
+				{
+					misplace++;
+					correct[2]=2;
+					
+				}
+			}
+			if (*two ==soln4)
+			{
+				if (correct[3]==0)
+				{
+					misplace++;
+					correct[3]=2;
+				
+				}
+			}
+			if (*three==soln1)
+			{
+				if (correct[0] ==0)
+				{
+					misplace++;
+					correct[0]=2;
+				}	
+			}
+			if (*three==soln2)
+			{
+				if (correct[1] ==0)
+				{
+					misplace++;
+					correct[1]=2;
+				
+				}
+			}
+			if (*three==soln4)
+			{
+				if (correct[3]==0)
+				{
+					misplace++;
+					correct[3]=2;
+				}
+			}			
+		
+			if (*four==soln1)
+			{
+				if (correct[0] ==0)
+				{
+					misplace++;
+					correct[0]=2;
+				}
+			}
+			if (*four==soln2)
+			{
+				if (correct[1] ==0)
+				{
+					misplace++;
+					correct[1]=2;
+				}
+			}
+			if (*four==soln3)
+			{
+				if (correct[2]==0)
+				{
+					misplace++;
+					correct[2]=2;
+				}
+			}
+			guessCount++;
+			if (guessCount > 13)
+			{
+				prog5_printf("make_guess: invalid guess\n");
+				return 0;
+			}
+			//feedback with the # of guesses, # of perfect matches, and # of misplaced matches
+			prog5_printf("With guess %d, you got %d perfect matches and %d misplaced matches.\n",guessCount, validNum, misplace);
+			return 1;
+		}
+	}
+	//One of the guesses was not between 1 and 8.
+	else
+	{
+		prog5_printf("make_guess: invalid guess\n");
+		return 0;
+	}
+}
 
 /*
  * compare_guesses -- compares two guesses to check whether a new guess
@@ -145,7 +333,150 @@ compare_guesses (int32_t orig1, int32_t orig2, int32_t orig3, int32_t orig4,
 		 int32_t n_perfect, int32_t n_misplaced, int32_t guess1, 
 		 int32_t guess2, int32_t guess3, int32_t guess4)
 {
-    return 0;
+		//I used a little bit of my program from make_guess to get the 
+		//# of perfects and mismatches in the new guess.
+		int validNum = 0;
+		int misplace = 0;
+		int correct[4];
+		int i;
+		for (i=0; i<4; i++)
+			correct[i]=0;
+		if (((guess1 >8) || (guess1 <1))||((guess2 >8) || (guess2 <1))||((guess3 <1)|| (guess3>8))||((guess4 <1) ||(guess4>8)))
+		{
+			prog5_printf("make_guess: invalid guess\n");
+			return 0;
+		}
+		else
+		{
+			if (guess1 ==soln1)
+			{
+				correct[0]=1;
+				validNum++;
+			}
+			if (guess2 ==soln2)
+			{
+				correct[1]=1;
+				validNum++;
+			}
+			if (guess3==soln3)
+			{
+				correct[2]=1;
+				validNum++;
+				
+			}
+			if (guess4==soln4)
+			{
+				correct[3]=1;
+				validNum++;
+			}
+			if ((guess1 == soln2)&&(correct[1]==0))
+			{
+				misplace++;
+				correct[1]=2;
+			}
+			if ((guess1 == soln3)&&(correct[2]==0))
+			{
+				misplace++;
+				correct[2]=2;
+			}
+			if ((guess1 == soln4)&&(correct[3]==0))
+			{
+				misplace++;
+				correct[3]=2;
+			}
+			if (guess2 ==soln1)
+			{
+				if (correct[0] ==0)
+				{
+					misplace++;
+					correct[0]=2;
+				}
+			}
+			if (guess2==soln3)
+			{
+				if (correct[2]==0)
+				{
+					misplace++;
+					correct[2]=2;
+					
+				}
+			}
+			if (guess2 ==soln4)
+			{
+				if (correct[3]==0)
+				{
+					misplace++;
+					correct[3]=2;
+				
+				}
+			}
+			if (guess3==soln1)
+			{
+				if (correct[0] ==0)
+				{
+					misplace++;
+					correct[0]=2;
+				}	
+			}
+			if (guess3==soln2)
+			{
+				if (correct[1] ==0)
+				{
+					misplace++;
+					correct[1]=2;
+				
+				}
+			}
+			if (guess3==soln4)
+			{
+				if (correct[3]==0)
+				{
+					misplace++;
+					correct[3]=2;
+				}
+			}			
+		
+			if (guess4==soln1)
+			{
+				if (correct[0] ==0)
+				{
+					misplace++;
+					correct[0]=2;
+				}
+			}
+			if (guess4==soln2)
+			{
+				if (correct[1] ==0)
+				{
+					misplace++;
+					correct[1]=2;
+				}
+			}
+			if (guess4==soln3)
+			{
+				if (correct[2]==0)
+				{
+					misplace++; 
+					correct[2]=2;
+				}
+			}
+			guessCount++;
+			
+			// I decided that a guess is always better if the number of perfect
+			//matches increases
+			if (validNum>n_perfect)
+				return 1;
+				
+			//If the number of perfect matches doesn't increase, but the number of 
+			//misplaced matches increase, you had a better guess because your pool of
+			//correct numbers is increased.
+			else if ((validNum==n_perfect)&&(misplace>n_misplaced))
+				return 1;
+			//anything else is considered a worse guess. Improvement only makes a better guess.
+			else 
+				return 0;
+		}
+	
 }
 
 
