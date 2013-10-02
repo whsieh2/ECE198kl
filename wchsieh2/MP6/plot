@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <lorenz output file>"
+    exit -1
+fi
+
+if [ ! -r "$1" ]; then
+    echo "$1: Cannot open file for reading."
+    exit -1
+fi
+
+# Plot results to lorenz
+exec gnuplot <(echo "
+set xlabel 'x'
+set ylabel 'y'
+set zlabel 'z'
+set size square
+unset key
+unset colorbox
+splot '$1' using 2:3:4:1 with lines linecolor palette
+pause -1 'press enter to exit...'
+")
