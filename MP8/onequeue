@@ -1,0 +1,7 @@
+set key 60,0.06
+set xlabel "Time Spent in Line"
+set ylabel "Probability"
+set terminal postscript color
+set output "onequeue.ps"
+f(x) = exp (-x/8) / 8
+plot [0:80][0:0.08] f(x) t 'no queueing delay (service rate)' with lines, "cent-steady" t 'centralized steady state (second 10000 time units)' with lines, "ss-steady" t 'distributed steady state (second 10000 time units)' with lines
