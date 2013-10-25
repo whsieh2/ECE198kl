@@ -1,0 +1,14 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	ODDSUM            3003
+//	LOOP              300B
+//	END               3013
+//	SUM_SAVER0        3018
+//	SUM_SAVER3        3019
+//	SUM_SAVER4        301A
+//	SUM_SAVER5        301B
+//	SIZE              301C
+//	PTR               301D
+
