@@ -1,0 +1,15 @@
+\nOUTPUT\n
+input x and n:arctan(0.000000) = 0.000000
+Answer is 0.0000000
+input x and n:arctan(1.000000) = 0.666667
+Answer is 0.66666667
+input x and n:arctan(1.000000) = 0.780375
+Answer is 0.780375
+input x and n:arctan(1.557000) = 0.960424
+Answer is 1.003823
+input x and n:arctan(2.000000) = 1.088841
+Answer is 1.088841
+input x and n:arctan(0.100000) = 0.099669
+Answer is 0.099669
+input x and n:arctan(0.001000) = 0.001000
+Answer is .00100
