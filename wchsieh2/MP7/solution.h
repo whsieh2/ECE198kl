@@ -7,7 +7,7 @@
 #include <math.h>
 #include <string.h>
 
-#include "jni/prog6.h"
+#include "jni/prog7.h"
 
 #define IMAGE_HEIGHT 512
 #define IMAGE_WIDTH 512

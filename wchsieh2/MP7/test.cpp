@@ -1,5 +1,5 @@
-#include "jni/prog6.h"
-#include "jni/prog6.c"
+#include "jni/prog7.h"
+#include "jni/prog7.c"
 
 #include "solution.h"
 
