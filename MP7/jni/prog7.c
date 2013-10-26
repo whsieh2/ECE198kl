@@ -36,7 +36,9 @@
 
 #include <math.h>
 
+
 #include "prog7.h"
+#define PI 3.14159265359
 
 /*
  * getRadius -- returns the radius based on sigma value 
@@ -49,7 +51,8 @@
 
 int getRadius(double sigma) 
 {
-    return 0;    
+	int radius = ceil(3*sigma);
+    return radius;
 }
 
 /*
@@ -64,7 +67,33 @@ int getRadius(double sigma)
 void
 calculateGFilter(double *gFilter, double sigma)
 {
+   double x;
+   double y;
+   double radius = getRadius(sigma);
+   double weight = 0;
+   double temp;
+   int i=0;
    
+   for (x = 0; x< 2*radius+1; x++)
+   {
+   		for (y = 0; y < 2*radius+1; y++)
+   		{
+   			gFilter[i] = (1/(sqrt(2*PI*sigma*sigma))) * exp(-((pow(x-radius,2))+(pow(y-radius,2)))/
+   			(2*sigma*sigma));
+   			weight += gFilter[i];
+   			i++;
+   		}
+   }
+   i=0;
+   for (x = 0; x< 2*radius+1; x++)
+   {
+   		for (y = 0; y < 2*radius+1; y++)
+   		{
+   			temp = gFilter[i];
+   			gFilter[i] = temp/weight;
+   			i++;
+   		}
+   }
 }
 
 /*
@@ -91,7 +120,76 @@ void blurImage (uint8_t *in_red, uint8_t *in_green, uint8_t *in_blue,
 		uint8_t *out_blue, uint8_t *out_alpha, double *gFilter, 
 		double sigma, int height, int width)
 {
-   
+	int i,j,k,l, rX, rY;
+	double sumRed = 0;
+	double sumGreen = 0;
+	double sumBlue = 0;
+	double sumAlpha = 0;
+	int radius = getRadius(sigma);
+	if (radius < 1)
+		return;
+	
+	for (i=0; i<height; i++)
+	{
+		for (j=0; j<width; j++)
+		{
+			for (k=0; k<(2*radius+1); k++)
+			{
+	   			for (l=0; l<(2*radius+1); l++)
+	   			{
+					rX = k - radius;
+	   				rY = l - radius;
+	   				
+	   				if(j + rX < width && i + rY < height && j + rX >= 0 && i + rY >= 0)
+	   				{
+		   				sumRed = sumRed+((in_red[(i + rY)*width + (j + rX)])*(gFilter[l*(2*radius+1) + k]));  
+		   				sumGreen = sumGreen+((in_green[(i + rY)*width + (j + rX)])*(gFilter[l*(2*radius+1) + k]));  
+		   				sumBlue = sumBlue+ ((in_blue[(i + rY)*width + (j + rX)])*(gFilter[l*(2*radius+1) + k]));  
+		   				sumAlpha = sumAlpha+ ((in_alpha[(i + rY)*width + (j + rX)])*(gFilter[l*(2*radius+1) + k]));
+		   				
+		   				
+		   			}
+		   			
+		   			
+		   		}
+		   	}
+		   	if (sumRed>255)
+						   	sumRed=255;
+						if (sumRed<0)
+						   	sumRed=0;
+			
+		
+						if (sumGreen>255)
+							sumGreen = 255;
+						if (sumGreen<0)
+							sumGreen = 0;
+				
+						   				
+						   			
+						if (sumBlue>255)
+							sumBlue=255;
+						if (sumBlue<0)
+							sumBlue=0;
+						  
+						   				
+						   			
+						if (sumAlpha>255)
+							sumAlpha=255;
+						if (sumAlpha<0)
+							sumAlpha=0;
+							
+		   				out_red[i *width+j] = sumRed;
+		   				out_green[i *width+j] = sumGreen;
+		   				out_blue[i *width+j] = sumBlue;
+		   				out_alpha[i *width+j]= sumAlpha;
+		   				sumRed =0;
+		   				sumBlue=0;
+		   				sumGreen=0;
+		   				sumAlpha=0;
+		   	
+		
+		}
+	}
 }
 
 /*
@@ -119,7 +217,7 @@ void convertToGray (uint8_t *in_red, uint8_t *in_green, uint8_t *in_blue,
 		    uint8_t *out_blue, uint8_t *out_alpha, 
 		    const float *gMonoMult, int height, int width)
 {
-   
+     
 }
 
 /*
