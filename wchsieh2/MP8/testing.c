@@ -166,6 +166,14 @@ main ()
 
     failed |= !test_heap_init (1);
     failed |= !test_heap_peek_min (0, 0.0);
+    failed |= !test_heap_get_min(0,0,0,0,0);
+    
+    failed |= !test_heap_insert(20.0,0,0,10.0,1);
+    failed |= !test_heap_insert(10.0,1,0,10.0,1);
+    
+    failed |= !test_heap_peek_min(1,10.0);
+    failed |= !test_heap_get_min(1,10.0,1,0,10.0);
+    
 
     if (failed) {
 	return 3;
