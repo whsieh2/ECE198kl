@@ -164,15 +164,15 @@ main ()
 {
     int32_t failed = 0;
 
-    failed |= !test_heap_init (1);
-    failed |= !test_heap_peek_min (0, 0.0);
-    failed |= !test_heap_get_min(0,0,0,0,0);
+    failed |= !test_heap_init (1); //test to see if the heap is empty
+    failed |= !test_heap_peek_min (0, 0.0); //check for a return 0 value for any events that have been inserted
+    failed |= !test_heap_get_min(0,0,0,0,0); //test for a return 0 for events that have been inserted
     
-    failed |= !test_heap_insert(20.0,0,0,10.0,1);
-    failed |= !test_heap_insert(10.0,1,0,10.0,1);
+    failed |= !test_heap_insert(20.0,0,0,10.0,1); //insert these values and it should return 1
+    failed |= !test_heap_insert(10.0,1,0,10.0,1); //insert these specific values and expect a return of 1.
     
-    failed |= !test_heap_peek_min(1,10.0);
-    failed |= !test_heap_get_min(1,10.0,1,0,10.0);
+    failed |= !test_heap_peek_min(1,10.0); // shows outputs of the first value. Should be 10 if the inserts worked correctly. 
+    failed |= !test_heap_get_min(1,10.0,1,0,10.0); //should return the min, which is the inserted 10.
     
 
     if (failed) {
