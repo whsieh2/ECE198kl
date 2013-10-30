@@ -2,3 +2,10 @@ Type your explanations for the behavior illustrated by the experiments
 into this file.
 
 
+The service model is the perfect model. So there is no delay in queue. As a result, the majority of the time spent in line is more likely to be short. This is why the centralized and decentralized averages are higher as time spent increases.There are delays. So it is still likely to have time spent in line past the 50 mark. While the service model has no delays so time spent in line will not very likely go past 50.
+
+OneQueue: 
+The centralized state graph has a initial peak because if you are the first 5 people, you will have 5 counters initially ready for you. As you are farther in the queue, then time spent in line begins to normalize as service is a set rate. Centralized state appears to be more appealing because the probability of being in line from 0-20 is a lot higher than that of distributed. And as time goes on, the probability of waiting that long decreases. This is favorable for a consumer because you don't want the probability of waiting in line for a long time to be higher. 
+
+Steady: 
+As time increasese, the multiple delays from each service accumulates. This eventually results in the deterioration of the probabilty of having people spend time in line. This accumulation makes it so the probability will not go to 0 as fast. The first 10,000 time units looks pretty similar to the second one. The only different is pre-10. The first has a steeper initial slope. At time 0, the first has a higher probability by 1%. Otherwise, post-10, the graphs look very similar, 
