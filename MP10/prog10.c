@@ -86,7 +86,7 @@ void hi_pass(WAV *inwav, char *outfile, int freq)
     temp[1] = inwav->data[1];
     temp[2] = inwav->data[2];
     temp[3] = inwav->data[3];
-     for(x = 4; x < inwav->Subchunk2Size /** 8 / inwav->bitsPerSample*/  ; x++)
+     for(x = 4; x < inwav->Subchunk2Size * 8 / inwav->bitsPerSample  ; x++)
     {
         in = inwav->data[x];
         in1 = inwav->data[x-2];// this is -2 and -4 because it goes left-right-left-right. therefore, it shoudl be every other previous value
@@ -95,7 +95,7 @@ void hi_pass(WAV *inwav, char *outfile, int freq)
         out2 = temp[x-4];
         temp[x] = (a1 * in) + (a2 * in1) + (a3 * in2) - (b1 * out1) - (b2 * out2);
     }
-    fwrite(temp, sizeof(short int), inwav->Subchunk2Size/* * 8 / inwav->bitsPerSample*/, fileWave);
+    fwrite(temp, sizeof(short int), inwav->Subchunk2Size * 8 / inwav->bitsPerSample, fileWave);
 	temp = NULL;
 
     fclose(fileWave);
@@ -126,13 +126,13 @@ void lo_pass(WAV *inwav, char *outfile, int freq)
 	double b1 = 2.0 * ( 1.0 - c*c) * a1;
 	double b2 = ( 1.0 - r * c + c * c) * a1;
 	
-	short int *temp = malloc(sizeof(short int)*(inwav->Subchunk2Size /* * 8 / inwav-> bitsPerSample*/ ));
+	short int *temp = malloc(sizeof(short int)*(inwav->Subchunk2Size  * 8 / inwav-> bitsPerSample ));
 	short int in, in1, in2, out1, out2;
     temp[0] = inwav->data[0];// the first four values are set in stone, so they will not be changed
     temp[1] = inwav->data[1];
     temp[2] = inwav->data[2];
     temp[3] = inwav->data[3];
-	for(x = 4; x < inwav->Subchunk2Size /* * 8 / inwav->bitsPerSample*/; x++)
+	for(x = 4; x < inwav->Subchunk2Size  * 8 / inwav->bitsPerSample; x++)
     {
         in = inwav->data[x];
         in1 = inwav->data[x-2];// this is -2 and -4 because it goes left-right-left-right. therefore, it shoudl be every other previous value
@@ -141,7 +141,7 @@ void lo_pass(WAV *inwav, char *outfile, int freq)
         out2 = temp[x-4];
         temp[x] = (a1 * in) + (a2 * in1) + (a3 * in2) - (b1 * out1) - (b2 * out2);
     }
-    fwrite(temp, sizeof(short int), inwav->Subchunk2Size /* * 8 / inwav->bitsPerSample */ , fileWave);
+    fwrite(temp, sizeof(short int), inwav->Subchunk2Size  * 8 / inwav->bitsPerSample , fileWave);
   	fclose(fileWave);
     
     temp = NULL;
