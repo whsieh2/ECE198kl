@@ -34,7 +34,7 @@ int main(int argc, char **argv){
       wav2 = read_file(argv[3]);
       noise_cancel(wav1, wav2, argv[4], atof(argv[5]));
       break;
-    case 5:
+   	case 5:
       if(argc != 4) return -1; 
       wav1 = read_file(argv[2]);
       roundSong(wav1, argv[3]);
