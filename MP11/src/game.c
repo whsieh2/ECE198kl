@@ -5,7 +5,12 @@
     performs one snake game iteration.
     Also provides functions for creating, destroying, and accessing game elements.
 */
+/*
+INTRO: board_cell uses the given row and col value to find the exact cell the user wants to access. randomly add food uses the algorithm given and applies it to the open
+cells using a random cell location. Create board creates dynamic memory for a board. And destroy board frees up this memory.
+Destroy snake traverses through the linked list and deletes each node.
 
+*/
 #include "game.h"
 
 #include <stdlib.h>
@@ -16,8 +21,11 @@ cell * board_cell(board * cur_board, int row, int col)
     This function should be handy for accessing board cells.
 */
 {
-    cell * cell_ptr = NULL;
+	
+    cell * cell_ptr;
+    cell_ptr =  &cur_board->cells[row*cur_board->cols+col];
     return cell_ptr; /*return cell pointer*/
+
 }
 
 void randomly_add_food(board * cur_board, float probability)
@@ -32,7 +40,12 @@ void randomly_add_food(board * cur_board, float probability)
     library, in order to produce deterministic results that make bugs
     easier to track down.  (i.e. just use random without calling srandom)
 */
-{}
+{
+    long foodCell = random() % (long)(cur_board->rows * cur_board->cols / probability);// determines a random cell based on probability and random number generators.
+    // the division by probability determines the rate at which food spawns
+    if (foodCell < cur_board->rows * cur_board->cols && cur_board->cells[foodCell] == CELL_OPEN)
+    	cur_board->cells[foodCell] = CELL_FOOD;
+}
 
 board * create_board(int rows, int cols)
 /*! Create an instance of a board structure with the given number of rows
@@ -45,13 +58,20 @@ board * create_board(int rows, int cols)
     memory in one call (see "calloc" man page)
 */
 {
-    board * myBoard = NULL;
+    board * myBoard = malloc(sizeof(board));
+    myBoard->cells = calloc(rows*cols,sizeof(cell)); //creates empty dynamic memory for the board
+    myBoard->rows = rows;
+    myBoard->cols=cols;
+
     return myBoard; /*return board */
 }
 
 void destroy_board(board * cur_board)
 /*! Free memory allocated by create_board to create the given board instance. */
-{}
+{
+    free(cur_board->cells);
+    free(cur_board);
+}
 
 snake * create_snake(board * cur_board, int row, int col, direction heading, int initial_growth)
 /*! Create a single-segment snake (See game.h for data structure specification)
@@ -80,7 +100,17 @@ snake * create_snake(board * cur_board, int row, int col, direction heading, int
 
 void destroy_snake(snake * cur_snake)
 /*! Free memory associated with the given snake instance. */
-{}
+{	
+
+	snake_segment *delete = cur_snake->head;
+	while(delete !=NULL)
+	{
+		delete = delete->next;
+		free(cur_snake->head); //traverses through the linked list and deletes each node.
+		cur_snake->head = delete;
+	}
+	free(cur_snake);
+}
 
 void append_snake_head(snake * cur_snake, board * cur_board, int row, int col)
 {}
