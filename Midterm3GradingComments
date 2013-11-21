@@ -1,0 +1,4 @@
+Question1
+Filling in image with colors is incorrect, only calls sierpinski once with incorrect values, doesn't use an else for calling sierpinski, doesn't call fill black, base case should be <=.
+Question2
+printList- does not print the value of the head node. insertionSort-
