@@ -39,6 +39,7 @@
 
 #include "WALYmain.h"
 #include "BurstScreen.h"
+#include "OneClass.h"
 
 using namespace std;
 using namespace WALY;
@@ -46,10 +47,12 @@ using namespace WALY;
 static DebugFile*   dbg         = NULL;
 static Frame*       rootFrame   = NULL;
 static BurstScreen* burstScreen = NULL;
+static OneClass* 	oneClass = NULL;
 
 static void 
 startGame (void)
 {
+
     burstScreen->deactivate ();
     // You need to activate your class instance here (and remove
     // the activation of the burst screen below).
@@ -59,7 +62,9 @@ startGame (void)
     // (but whatever was on the screen last remains there, so the
     // program appears to be frozen/hung).
     //
-    burstScreen->activate ();
+    //burstScreen->activate ();
+    oneClass->activate ();
+    
 }
 
 static void
@@ -71,9 +76,11 @@ returnToBurst (void)
 
     // You need to deactivate your class instance here.
 
-
+	
     // Then we activate the burst screen.
+    oneClass->deactivate ();
     burstScreen->activate ();
+
 }
 
 int 
@@ -90,9 +97,12 @@ WALY_main (void)
 
     burstScreen->activate ();
 
+    oneClass = new OneClass (rootFrame, returnToBurst);
+    
     Screen::run ();
 
     delete burstScreen;
+    delete oneClass;
 
     dbg->getStream () << "----- END OF DEBUG OUTPUT -----" << endl;
     delete dbg;
