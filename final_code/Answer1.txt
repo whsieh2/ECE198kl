@@ -1,0 +1,74 @@
+Problem 1. 
+
+
+(a) Explain the problem in CodeFix's scheme in a few sentences.
+Returning the address of a local variable from a subroutine can fail because the address is lost
+once you leave that subroutine. The variable is simply out of scope outside that subroutine. 
+
+
+
+
+(b) Write the class T.
+class T{
+	private:
+	int *ptr;
+	int x;
+
+	public:
+	constructor(int *pointer, int y){int *ptr = new int; ptr=pointer; x=y;}
+	constructor(){if (x=0){*ptr=0;) cout<<*ptr<<endl; }
+	destructor(int *ptr){cout<<*ptr<<endl; *ptr = NULL; delete ptr;}
+}
+
+
+(c)Two different mechanisms for dynamically allocating memory.
+In C++, you use new to dynamically allocate memory. In doing so, you only need to 
+specify the type, and the compiler will compute the correct number of bits needed.
+In C, you use malloc to dynamically allocate memory. When you do this, you need to 
+compute the space needed, or use another call, sizeof().
+
+(d) Write the LC3 code for getNode = getNode->next.
+ADD R5, R5, #0 	;R5 is a frame pointer to getNode. I'm assuming that means R5 has the memory location
+LDR R4, R5, #1	;R4 now has the memory location of R5+1 which I'm assuming is next.
+LDR R5, R4, #0	; Now R5 is loaded up with the memory location of the getNode->next;
+
+
+
+
+(e) Explain encapsulation in a few sentences.
+Encapsulation helps clean up code. It separates the implementation and declaration of functions
+in a class. in class Circle, all public members are accessible by anyone, whereas only members
+that belong to the class have access to the private members. So in inheritance, the derived class
+can only access the public member functions, but not the private. So, int main has access to the public functions of class Circle, but no the private members: x,y,radius. If you want to use 
+public members of a class, you must do #include "theheaderfile.h".
+
+
+
+
+(f) (i) Show runtime stack to illustrate bug.
+
+main: choice, input, ret, *head;
+addItem: *newItem
+
+(ii) Make the changes needed to fix bugs. Add comments to highlight the changes.
+
+int addItem(iItem *head, int input)  {
+	iItem *newItem;
+	newItem = (iItem *) malloc(sizeof(iItem));
+	if(newItem == NULL) return 0;
+	newItem->val = input;
+	newItem->next = head;
+	head = newItem;
+	return 1;
+}
+	
+int main() {
+	int choice, input, ret;
+	iItem *head = NULL;
+	addItem(head, 5);
+	addItem(head, 10);
+	…
+	return 0;
+}
+
+

@@ -1,0 +1,8 @@
+Question1
+
+Question2
+a - minor bugs with dereferencing d -  didn't understand the concept of using the returned pointer from countRun to move to the next run
+Question3
+insertion issue, and did not use resursion
+Question4
+does not compile. does not read to end of file. does not read each character correctly. does not read in word into an array correctly. 
